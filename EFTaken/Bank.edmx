@@ -4,13 +4,22 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Klanten">
           <Key>
             <PropertyRef Name="KlantNr" />
           </Key>
           <Property Name="KlantNr" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Voornaam" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Aangepast" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personeel">
+          <Key>
+            <PropertyRef Name="PersoneelsNr" />
+          </Key>
+          <Property Name="PersoneelsNr" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Voornaam" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ManagerNr" Type="int" />
         </EntityType>
         <EntityType Name="Rekeningen">
           <Key>
@@ -21,6 +30,18 @@
           <Property Name="Saldo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Soort" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Personeel__Manag__49C3F6B7">
+          <End Role="Personeel" Type="Self.Personeel" Multiplicity="0..1" />
+          <End Role="Personeel1" Type="Self.Personeel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personeel">
+              <PropertyRef Name="PersoneelsNr" />
+            </Principal>
+            <Dependent Role="Personeel1">
+              <PropertyRef Name="ManagerNr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Rekeninge__Klant__1273C1CD">
           <End Role="Klanten" Type="Self.Klanten" Multiplicity="1" />
           <End Role="Rekeningen" Type="Self.Rekeningen" Multiplicity="*" />
@@ -35,14 +56,18 @@
         </Association>
         <EntityContainer Name="BankModelStoreContainer">
           <EntitySet Name="Klanten" EntityType="Self.Klanten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personeel" EntityType="Self.Personeel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rekeningen" EntityType="Self.Rekeningen" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Personeel__Manag__49C3F6B7" Association="Self.FK__Personeel__Manag__49C3F6B7">
+            <End Role="Personeel" EntitySet="Personeel" />
+            <End Role="Personeel1" EntitySet="Personeel" />
+          </AssociationSet>
           <AssociationSet Name="FK__Rekeninge__Klant__1273C1CD" Association="Self.FK__Rekeninge__Klant__1273C1CD">
             <End Role="Klanten" EntitySet="Klanten" />
             <End Role="Rekeningen" EntitySet="Rekeningen" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -53,6 +78,7 @@
           <Property Name="KlantNr" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Voornaam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Rekeningen" Relationship="Self.FK__Rekeninge__Klant__1273C1CD" FromRole="Klanten" ToRole="Rekeningen" />
+          <Property Name="Aangepast" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
         </EntityType>
         <EntityType Name="Rekening">
           <Key>
@@ -83,7 +109,34 @@
             <End Role="Klanten" EntitySet="Klanten" />
             <End Role="Rekeningen" EntitySet="Rekeningen" />
           </AssociationSet>
+          <EntitySet Name="Personeel" EntityType="BankModel.PersoneelsLid" />
+          <AssociationSet Name="FK__Personeel__Manag__49C3F6B7" Association="BankModel.FK__Personeel__Manag__49C3F6B7">
+            <End Role="Personeel" EntitySet="Personeel" />
+            <End Role="Personeel1" EntitySet="Personeel" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="PersoneelsLid">
+          <Key>
+            <PropertyRef Name="PersoneelsNr" />
+          </Key>
+          <Property Name="PersoneelsNr" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Voornaam" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerNr" Type="Int32" />
+          <NavigationProperty Name="Ondergeschikten" Relationship="BankModel.FK__Personeel__Manag__49C3F6B7" FromRole="Personeel" ToRole="Personeel1" />
+          <NavigationProperty Name="Manager" Relationship="BankModel.FK__Personeel__Manag__49C3F6B7" FromRole="Personeel1" ToRole="Personeel" />
+        </EntityType>
+        <Association Name="FK__Personeel__Manag__49C3F6B7">
+          <End Type="BankModel.PersoneelsLid" Role="Personeel" Multiplicity="0..1" />
+          <End Type="BankModel.PersoneelsLid" Role="Personeel1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personeel">
+              <PropertyRef Name="PersoneelsNr" />
+            </Principal>
+            <Dependent Role="Personeel1">
+              <PropertyRef Name="ManagerNr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -93,6 +146,7 @@
           <EntitySetMapping Name="Klanten">
             <EntityTypeMapping TypeName="BankModel.Klant">
               <MappingFragment StoreEntitySet="Klanten">
+                <ScalarProperty Name="Aangepast" ColumnName="Aangepast" />
                 <ScalarProperty Name="KlantNr" ColumnName="KlantNr" />
                 <ScalarProperty Name="Voornaam" ColumnName="Voornaam" />
               </MappingFragment>
@@ -105,6 +159,15 @@
                 <ScalarProperty Name="KlantNr" ColumnName="KlantNr" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
                 <ScalarProperty Name="Soort" ColumnName="Soort" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personeel">
+            <EntityTypeMapping TypeName="BankModel.PersoneelsLid">
+              <MappingFragment StoreEntitySet="Personeel">
+                <ScalarProperty Name="ManagerNr" ColumnName="ManagerNr" />
+                <ScalarProperty Name="Voornaam" ColumnName="Voornaam" />
+                <ScalarProperty Name="PersoneelsNr" ColumnName="PersoneelsNr" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

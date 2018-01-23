@@ -7,24 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EFTaken
+namespace EFCursus
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Klant
+    public partial class Boek
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Klant()
+        public Boek()
         {
-            this.Rekeningen = new HashSet<Rekening>();
+            this.BoekenCursussen = new HashSet<BoekenCursus>();
         }
     
-        public int KlantNr { get; set; }
-        public string Voornaam { get; set; }
-        public byte[] Aangepast { get; set; }
+        public int BoekNr { get; set; }
+        public string ISBNNr { get; set; }
+        public string Titel { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rekening> Rekeningen { get; set; }
+        public virtual ICollection<BoekenCursus> BoekenCursussen { get; set; }
     }
 }

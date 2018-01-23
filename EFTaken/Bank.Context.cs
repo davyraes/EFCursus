@@ -27,5 +27,6 @@ namespace EFTaken
     
         public virtual DbSet<Klant> Klanten { get; set; }
         public virtual DbSet<Rekening> Rekeningen { get; set; }
+        public virtual DbSet<PersoneelsLid> Personeel { get; set; }
     }
 }

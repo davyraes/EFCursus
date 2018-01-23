@@ -12,19 +12,20 @@ namespace EFTaken
     using System;
     using System.Collections.Generic;
     
-    public partial class Klant
+    public partial class PersoneelsLid
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Klant()
+        public PersoneelsLid()
         {
-            this.Rekeningen = new HashSet<Rekening>();
+            this.Ondergeschikten = new HashSet<PersoneelsLid>();
         }
     
-        public int KlantNr { get; set; }
+        public int PersoneelsNr { get; set; }
         public string Voornaam { get; set; }
-        public byte[] Aangepast { get; set; }
+        public Nullable<int> ManagerNr { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rekening> Rekeningen { get; set; }
+        public virtual ICollection<PersoneelsLid> Ondergeschikten { get; set; }
+        public virtual PersoneelsLid Manager { get; set; }
     }
 }

@@ -7,24 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EFTaken
+namespace EFCursus
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Klant
+    public partial class Cursist
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Klant()
+        public Cursist()
         {
-            this.Rekeningen = new HashSet<Rekening>();
+            this.Beschermelingen = new HashSet<Cursist>();
         }
     
-        public int KlantNr { get; set; }
+        public int CursistNr { get; set; }
         public string Voornaam { get; set; }
-        public byte[] Aangepast { get; set; }
+        public string Familienaam { get; set; }
+        public Nullable<int> MentorNr { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rekening> Rekeningen { get; set; }
+        public virtual ICollection<Cursist> Beschermelingen { get; set; }
+        public virtual Cursist Mentor { get; set; }
     }
 }

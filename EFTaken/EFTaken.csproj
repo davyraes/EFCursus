@@ -46,6 +46,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +71,9 @@
       <DependentUpon>Bank.edmx</DependentUpon>
     </Compile>
     <Compile Include="Klant.cs">
+      <DependentUpon>Bank.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersoneelsLid.cs">
       <DependentUpon>Bank.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />

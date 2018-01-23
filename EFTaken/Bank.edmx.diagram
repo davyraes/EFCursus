@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="BankModel.Klant" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BankModel.Rekening" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <AssociationConnector Association="BankModel.FK__Rekeninge__Klant__1273C1CD" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BankModel.PersoneelsLid" Width="1.5" PointX="0.75" PointY="3.75" />
+        <AssociationConnector Association="BankModel.FK__Personeel__Manag__49C3F6B7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
