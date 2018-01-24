@@ -7,17 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EFTaken
+namespace EFCursus
 {
     using System;
-    using System.Collections.Generic;
     
-    public abstract partial class Rekening
+    public partial class CampussenVanTotPostCode_Result
     {
-        public string RekeningNr { get; set; }
-        public int KlantNr { get; set; }
-        public decimal Saldo { get; set; }
-    
-        public virtual Klant Klant { get; set; }
+        public int CampusNr { get; set; }
+        public string Naam { get; set; }
+        public string Straat { get; set; }
+        public string HuisNr { get; set; }
+        public string PostCode { get; set; }
+        public string Gemeente { get; set; }
     }
 }

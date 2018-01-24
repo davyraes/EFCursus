@@ -7,17 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EFTaken
+namespace EFCursus
 {
     using System;
-    using System.Collections.Generic;
     
-    public abstract partial class Rekening
+    public partial class Naam
     {
-        public string RekeningNr { get; set; }
-        public int KlantNr { get; set; }
-        public decimal Saldo { get; set; }
-    
-        public virtual Klant Klant { get; set; }
+        public string Voornaam { get; set; }
+        public string Familienaam { get; set; }
     }
 }

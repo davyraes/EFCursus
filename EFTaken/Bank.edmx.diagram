@@ -6,10 +6,15 @@
     <edmx:Diagrams>
       <Diagram DiagramId="389df24c02804ce6bd0ce684d1b2d7ff" Name="Diagram1">
         <EntityTypeShape EntityType="BankModel.Klant" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BankModel.Rekening" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Rekening" Width="1.5" PointX="3.625" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="BankModel.FK__Rekeninge__Klant__1273C1CD" ManuallyRouted="false" />
         <EntityTypeShape EntityType="BankModel.PersoneelsLid" Width="1.5" PointX="0.75" PointY="3.75" />
         <AssociationConnector Association="BankModel.FK__Personeel__Manag__49C3F6B7" />
+        <EntityTypeShape EntityType="BankModel.Zichtrekening" Width="1.5" PointX="3" PointY="4.375" />
+        <EntityTypeShape EntityType="BankModel.Spaarrekening" Width="1.5" PointX="5.75" PointY="4.5" />
+        <InheritanceConnector EntityType="BankModel.Zichtrekening" />
+        <InheritanceConnector EntityType="BankModel.Spaarrekening" />
+        <EntityTypeShape EntityType="BankModel.TotaleSaldoPerKlant" Width="2.25" PointX="6.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

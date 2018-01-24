@@ -12,18 +12,13 @@ namespace EFCursus
     using System;
     using System.Collections.Generic;
     
-    public partial class Cursus
+    public partial class BestBetaaldeDocentPerCampus
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cursus()
-        {
-            this.BoekenCursussen = new HashSet<BoekenCursus>();
-        }
-    
-        public int CursusNr { get; set; }
+        public int CampusNr { get; set; }
         public string Naam { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoekenCursus> BoekenCursussen { get; set; }
+        public Nullable<decimal> GrootsteWedde { get; set; }
+        public int DocentNr { get; set; }
+        public string Voornaam { get; set; }
+        public string Familienaam { get; set; }
     }
 }

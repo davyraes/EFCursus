@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EFCursus
+namespace EFTaken
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class BoekenCursus
+    public partial class TotaleSaldoPerKlant
     {
-        public int BoekNr { get; set; }
-        public int CursusNr { get; set; }
-        public int VolgNr { get; set; }
-    
-        public virtual Boek Boek { get; set; }
-        public virtual Cursus Cursus { get; set; }
+        public int KlantNr { get; set; }
+        public string Voornaam { get; set; }
+        public Nullable<decimal> TotaleSaldo { get; set; }
     }
 }

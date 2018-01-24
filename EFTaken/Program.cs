@@ -13,43 +13,77 @@ namespace EFTaken
         private static List<Klant> klanten;
         static void Main(string[] args)
         {
+            ToonSaldoPerKlant();
+            Console.ReadLine();
 
+        }
+        static void AdministratieKosten()
+        {
+            Console.WriteLine("Geef de kost:");
+            decimal bedrag;
+            if(!decimal.TryParse(Console.ReadLine(),out bedrag))
+            {
+                Console.WriteLine("tik een getal");
+            }
+            else
+            {
+                using (var entities = new BankEntities())
+                {
+                    entities.AdministratieveKost(bedrag);
+                }
+                Console.ReadLine();
+            }
 
+        }
+        static void ToonSaldoPerKlant()
+        {
+            using (var entities = new BankEntities())
+            {
+                foreach(var saldo in (entities.TotaleSaldoPerKlant))
+                {
+                    Console.WriteLine($"{saldo.Voornaam} : {saldo.TotaleSaldo}");
+                }
+
+            }
+        }
+        static void ToonZichtrekeningen()
+        {
+            using (var entities = new BankEntities())
+            {
+                var zichtrekeningen = from rekening in entities.Rekeningen
+                                      where rekening is Zichtrekening
+                                      select rekening;
+                foreach(var rekening in zichtrekeningen)
+                {
+                    Console.WriteLine($"{rekening.RekeningNr} : {rekening.Saldo}");
+                }
+            }
         }
         static void personeel()
         {
-            using (var entities = new BankEntities)
+            using (var entities = new BankEntities())
             {
                 var querry = (from personeel in entities.Personeel
-                              where personeel.Manager == null
-                              select personeel.Manager).ToList();
+                              where personeel.Manager==null
+                              select personeel).ToList();
                              
                 foreach (var manager in querry)
                 {
-                    if(manager.ManagerNr == null)
+                    if(manager.Manager == null)
                     {
-                        Console.WriteLine($"{manager.Voornaam}");                        
-                    }
-                    if(manager.Ondergeschikten.Count!=0)
-                    {
-                        foreach( var personeel in manager.Ondergeschikten)
-                        {
-                            Console.WriteLine($"/t{personeel.Voornaam}");
-                            if(personeel.Ondergeschikten.Count!=0)
-
-                        }
+                        PersoonAfbeelden(manager,0);                        
                     }
                 }                
             }
         }
         static void PersoonAfbeelden(PersoneelsLid persoon, int tabs)
         {
+            Console.WriteLine(new string('\t',tabs)+$"{persoon.Voornaam}");
             if (persoon.Ondergeschikten.Count != 0)
             {
                 foreach (var personeel in persoon.Ondergeschikten)
                 {
-                    Console.WriteLine(new string('\t',tabs)+$"{personeel.Voornaam}");
-                    if (personeel.Ondergeschikten.Count!=0)
+                    PersoonAfbeelden(personeel, tabs + 1);
                 }
             }
         }
@@ -137,7 +171,7 @@ namespace EFTaken
                     else
                     {
                         Console.Write("Geef nieuw rekeningnr:");
-                        Rekening rekening = new Rekening() { KlantNr = getal, RekeningNr = Console.ReadLine(), Saldo = 0m, Soort = "Z" };
+                        Rekening rekening = new Zichtrekening() { KlantNr = getal, RekeningNr = Console.ReadLine(), Saldo = 0m};
                         using (var entities = new BankEntities())
                         {
                             entities.Rekeningen.Add(rekening);

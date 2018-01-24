@@ -13,42 +13,78 @@ namespace EFCursus
         
         static void Main(string[] args)
         {
+            BestBetaaldeDocentPerCampusAfbeelden();
+            Console.ReadLine();
+        }
+        static void BestBetaaldeDocentPerCampusAfbeelden()
+        {
+            using (var entities = new OpleidingenEntities())
+            {
+                var query = from bestBetaaldeDocentPerCampus in entities.BestBetaaldeDocentenPerCampus
+                            orderby bestBetaaldeDocentPerCampus.CampusNr,
+                            bestBetaaldeDocentPerCampus.Voornaam, bestBetaaldeDocentPerCampus.Familienaam
+                            select bestBetaaldeDocentPerCampus;
+                var vorigCampusNr = 0;
+                foreach(var bestbetaaldeDocentPerCampus in query)
+                {
+                    if(bestbetaaldeDocentPerCampus.CampusNr != vorigCampusNr)
+                    {
+                        Console.WriteLine($"{bestbetaaldeDocentPerCampus.Naam} {bestbetaaldeDocentPerCampus.GrootsteWedde} Grootste wedde :");
+                        vorigCampusNr = bestbetaaldeDocentPerCampus.CampusNr;
+                    }
+                    Console.WriteLine($"\t{bestbetaaldeDocentPerCampus.Voornaam} {bestbetaaldeDocentPerCampus.Familienaam}");
+                }
+            }
+        }
+        static void InformeleBegroetingCursisten()
+        {
+            using (var entities = new OpleidingenEntities())
+            {
+               foreach(var cursist in (from cursist in entities.Cursisten select cursist))
+                {
+                    Console.WriteLine(cursist.Naam.InformeleBegroeting);
+                }
+            }
+        }
+        static void mentoren()
+        {
             using (var entities = new OpleidingenEntities())
             {
                 var query = from mentor in entities.Cursisten.Include("Beschermelingen")
                             where mentor.Beschermelingen.Count!=0
-                            orderby mentor.Voornaam, mentor.Familienaam
+                            orderby mentor.Naam.Voornaam, mentor.Naam.Familienaam
                             select mentor;
                 foreach (var mentor in query)
                 {
-                    Console.WriteLine($"{mentor.Voornaam} {mentor.Familienaam}");
+                    Console.WriteLine($"{mentor.Naam.Voornaam} {mentor.Naam.Familienaam}");
                     foreach(var beschermeling in mentor.Beschermelingen)
                     {
-                        Console.WriteLine($"\t{beschermeling.Voornaam} {beschermeling.Familienaam}");
-                    }
-                }
-            }
-            Console.ReadLine();
-        }
-        static void BoekenPerCursus()
-        {
-            using (var entities = new OpleidingenEntities())
-            {
-                var query = from cursus in entities.Cursussen.Include("BoekenCursussen.Boek")
-                            orderby cursus.Naam
-                            select cursus;
-                foreach(var cursus in query)
-                {
-                    Console.WriteLine(cursus.Naam);
-                    foreach(var boekCursus in cursus.BoekenCursussen)
-                    {
-                        Console.WriteLine($"\t{boekCursus.VolgNr}:{boekCursus.Boek.Titel}");
+                        Console.WriteLine($"\t{beschermeling.Naam.Voornaam} {beschermeling.Naam.Familienaam}");
                     }
                 }
             }
             Console.ReadLine();
 
         }
+        //static void BoekenPerCursus()
+        //{
+        //    using (var entities = new OpleidingenEntities())
+        //    {
+        //        var query = from cursus in entities.Cursussen.Include("BoekenCursussen.Boek")
+        //                    orderby cursus.Naam
+        //                    select cursus;
+        //        foreach(var cursus in query)
+        //        {
+        //            Console.WriteLine(cursus.Naam);
+        //            foreach(var boekCursus in cursus.BoekenCursussen)
+        //            {
+        //                Console.WriteLine($"\t{boekCursus.VolgNr}:{boekCursus.Boek.Titel}");
+        //            }
+        //        }
+        //    }
+        //    Console.ReadLine();
+
+        //}
         static void VoorraadBijvulling()
         {
             try
@@ -162,7 +198,7 @@ namespace EFCursus
                 {
                     var query = from docent in entities.Docenten
                                 where docent.Wedde >= minWedde
-                                orderby docent.Voornaam, docent.Familienaam
+                                orderby docent.Naam.Voornaam, docent.Naam.Familienaam
                                 select docent;
                     foreach (var docent in query)
                     {
